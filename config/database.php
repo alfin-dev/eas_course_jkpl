@@ -70,7 +70,7 @@ return [
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'course'),
             'username' => env('DB_USERNAME', 'posgres'),
-            'password' => env('DB_PASSWORD', 'ilyas'),
+            'password' => env('DB_PASSWORD', 'alphiend153'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

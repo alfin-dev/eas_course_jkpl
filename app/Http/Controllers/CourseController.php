@@ -15,6 +15,7 @@ class CourseController extends Controller
     public function index()
     {
         $data = DB::table('person')->get();
+        // dd($data);
         return view('coba',compact('data'));
     }
 

@@ -81,7 +81,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    HUHUHUHUHUHHUHUHU
+
+                    huhuhuyyyyeyeyeye
+
                 </div>
 
                 <div class="links">

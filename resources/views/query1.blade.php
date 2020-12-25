@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title','KEMEMS')
+@section('title','Query 1')
 @section('content')
 
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Kelas Jarkom</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Kelas Jaringan Komputer</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -46,7 +46,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Kelas Daskom</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Kelas Dasar Komputer</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -163,4 +163,5 @@
         </div>
     </div>
 </div>
+
 @endsection

@@ -51,10 +51,7 @@ class CourseController extends Controller
         ->join('course','l4.desig', '=','course.desig')
         ->select('person.*','course.*','l4.*')->get();
 
-        // dd($pepek);
-
-
-        return view('coba',['l1' => $l1, 'l2' => $l2, 'l3' => $l3, 'l4' => $l4]);
+        return view('query1',['l1' => $l1, 'l2' => $l2, 'l3' => $l3, 'l4' => $l4]);
     }
 
     /**
@@ -62,6 +59,74 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function query2(){
+        $year = DB::table('student')
+        ->join('person','student.id','=','person.id')
+        ->select('student')->min('year');
+        
+        $hsil = DB::table('student')
+        ->join('person','student.id','=','person.id')
+        ->where('year',$year)
+        ->select('person.*','student.*')->get();
+        // dd($hsil);
+
+        return view('query2',compact('hsil'));
+
+    }
+
+    public function query4(){
+        //
+        $des = DB::table('course')
+        ->join('tutorial','course.desig','=','tutorial.desig')
+        ->select('course.*','tutorial.*')
+        ->distinct('tutorial.desig')
+        ->get();
+        // dd($des);
+        return view('query4',compact('des'));
+    }
+    
+    public function query5(){
+        //
+    }
+    
+    public function query6(){
+                
+        $ins = DB::table('person')
+        ->select('person.name')
+        ->join('instructor','person.id','=','instructor.id')
+        ->join('hasi','instructor.id','=','hasi.id')
+        ->join('course','hasi.desig','=','course.desig')
+        ->join('tutorial','tutorial.desig','=','course.desig')
+        ->join('lab','hasi.desig','=','lab.desig')
+        ->groupBy('person.name')
+        ->Having(DB::raw('count(lab.section)'), '>', 1)
+        // ->Having(Count('lab.section'), '>', 1)
+        ->distinct('person.name')
+        ->get();
+
+        // dd($ins);
+        return view('query6',compact('ins'));
+        //
+    }
+
+    public function query7(){
+        $ins = DB::table('person')
+        ->select('person.name')
+        ->join('instructor','person.id','=','instructor.id')
+        ->join('hasi','instructor.id','=','hasi.id')
+        ->join('course','hasi.desig','=','course.desig')
+        ->join('tutorial','tutorial.desig','=','course.desig')
+        ->join('lab','hasi.desig','=','lab.desig')
+        ->groupBy('person.name')
+        ->Having(DB::raw('count(lab.section)'), '<=', 1)
+        ->distinct('person.name')
+        // ->Having(Count('lab.section'), '>', 1)
+        ->get();
+
+        // dd($ins);
+        return view('query7',compact('ins'));
+    }
+
     public function create()
     {
         //

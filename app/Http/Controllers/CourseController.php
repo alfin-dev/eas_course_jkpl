@@ -14,44 +14,11 @@ class CourseController extends Controller
      */
     public function index()
     {
-        // $person = DB::table('person')
-        // ->join('student','person.id', '=','student.id')
-        // ->join('l1','person.id', '=','l1.id')
-        // // ->join('l2','person.id', '=','l2.id')
-        // // ->join('l3','person.id', '=','l3.id')
-        // // ->join('l4','person.id', '=','l4.id')
-        // ->select('student.*','person.name','l1.*')
-        // ->get();
-
-        // $course = DB::table('course')
-        // ->join('y1course','course.desig','=','y1course.desig')
-        // ->join('y2course','course.desig','=','y2course.desig')
-        // ->join('y3course','course.desig','=','y3course.desig')
-        // ->join('y4course','course.desig','=','y4course.desig')
-        // ->select('course.*')->get();
-        // dd($person);
-
-        $l1 = DB::table('l1')
-        ->join('person','l1.id','=','person.id')
-        ->join('course','l1.desig', '=','course.desig')
-        ->select('person.*','course.*','l1.*')->get();
-
-        $l2 = DB::table('l2')
-        ->join('person','l2.id','=','person.id')
-        ->join('course','l2.desig', '=','course.desig')
-        ->select('person.*','course.*','l2.*')->get();
-
-        $l3 = DB::table('l3')
-        ->join('person','l3.id','=','person.id')
-        ->join('course','l3.desig', '=','course.desig')
-        ->select('person.*','course.*','l3.*')->get();
-
-        $l4 = DB::table('l4')
-        ->join('person','l4.id','=','person.id')
-        ->join('course','l4.desig', '=','course.desig')
-        ->select('person.*','course.*','l4.*')->get();
-
-        return view('query1',['l1' => $l1, 'l2' => $l2, 'l3' => $l3, 'l4' => $l4]);
+        $stud = DB::table('student')->count();
+        $staf = DB::table('staff')->count();
+        $cour = DB::table('course')->count();
+        $inst = DB::table('instructor')->count();
+        return view('dashboard',compact('stud','staf','cour','inst'));
     }
 
     /**
@@ -59,19 +26,69 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function query2(){
-        $year = DB::table('student')
-        ->join('person','student.id','=','person.id')
-        ->select('student')->min('year');
+    public function query1(){
+       //
+            $student = DB::table('student')
+            ->join('person','person.id','=','student.id')
+            ->select('person.*','student.*')
+            ->get();
+
+            return view('query1',compact('student'));
+    }
+
+    public function query1b($id){
+        $student = DB::table('student')
+        ->join('person','person.id','=','student.id')
+        ->select('person.*','student.*')
+        ->get();
+
+        $l1 = DB::table('person')
+        ->join('student','student.id','=','person.id')
+        ->join('l1','l1.id', '=','student.id')
+        ->join('y1course','y1course.desig', '=','l1.desig')
+        ->join('course','course.desig', '=','l1.desig')
+        ->select('person.*','course.title','student.year','l1.status')->where('person.id','=', $id)->get();
+        // dd(l1);
+        $l2 = DB::table('person')
+        ->join('student','student.id','=','person.id')
+        ->join('l2','l2.id', '=','student.id')
+        ->join('y2course','y2course.desig', '=','l2.desig')
+        ->join('course','course.desig', '=','l2.desig')
+        ->select('person.*','course.title','student.year','l2.status')->where('person.id','=', $id)->get();
         
-        $hsil = DB::table('student')
-        ->join('person','student.id','=','person.id')
-        ->where('year',$year)
-        ->select('person.*','student.*')->get();
-        // dd($hsil);
+        $l3 = DB::table('person')
+        ->join('student','student.id','=','person.id')
+        ->join('l3','l3.id', '=','student.id')
+        ->join('y3course','y3course.desig', '=','l3.desig')
+        ->join('course','course.desig', '=','l3.desig')
+        ->select('person.*','course.title','student.year','l3.status')->where('person.id','=', $id)->get();
+        
+        $l4 = DB::table('person')
+        ->join('student','student.id','=','person.id')
+        ->join('l4','l4.id', '=','student.id')
+        ->join('y4course','y4course.desig', '=','l4.desig')
+        ->join('course','course.desig', '=','l4.desig')
+        ->select('person.*','course.title','student.year','l4.status')->where('person.id','=', $id)->get();
+
+        return view('query1b',compact('l1','l2','l3','l4'));   
+    }
+
+    public function query2(){
+        $hsil = DB::table('l1')->join('person','person.id','=','l1.id')->select('*')->get();
 
         return view('query2',compact('hsil'));
 
+    }
+
+    public function query3(){
+
+        $p = DB::table('hasi')->select('*')
+        ->join('person','person.id','=','hasi.id')
+        ->join('course','course.desig','=','hasi.desig')
+        ->join('y1course','y1course.desig','=','hasi.desig')
+        ->get();
+
+        return view('query3',compact('p'));
     }
 
     public function query4(){
@@ -79,14 +96,22 @@ class CourseController extends Controller
         $des = DB::table('course')
         ->join('tutorial','course.desig','=','tutorial.desig')
         ->select('course.*','tutorial.*')
-        ->distinct('tutorial.desig')
+        ->distinct('tutorial.*','course.*')
         ->get();
-        // dd($des);
         return view('query4',compact('des'));
     }
     
     public function query5(){
-        //
+    
+        $q5 = DB::table('course')
+        ->select('lab.desig','course.title')
+        ->join('lab','course.desig','=','lab.desig')
+        ->groupBy('lab.desig','course.title')
+        ->Having(DB::raw('count(lab.section)'), '>', 1)
+        ->distinct('lab.desig')
+    ->get();
+    // dd($q5);
+    return view('query5',compact('q5'));
     }
     
     public function query6(){
@@ -100,11 +125,9 @@ class CourseController extends Controller
         ->join('lab','hasi.desig','=','lab.desig')
         ->groupBy('person.name')
         ->Having(DB::raw('count(lab.section)'), '>', 1)
-        // ->Having(Count('lab.section'), '>', 1)
         ->distinct('person.name')
         ->get();
 
-        // dd($ins);
         return view('query6',compact('ins'));
         //
     }
@@ -120,10 +143,8 @@ class CourseController extends Controller
         ->groupBy('person.name')
         ->Having(DB::raw('count(lab.section)'), '<=', 1)
         ->distinct('person.name')
-        // ->Having(Count('lab.section'), '>', 1)
         ->get();
 
-        // dd($ins);
         return view('query7',compact('ins'));
     }
 

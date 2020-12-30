@@ -15,7 +15,7 @@
                         <th>No.</th>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Year</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,13 @@
                         <td>{{$key +1 }}</td>
                         <td>{{$d->id}}</td>
                         <td>{{$d->name}}</td>
-                        <td>{{$d->year}}</td>
+                        @if($d->status == "P")
+                            <td>Passed</td>
+                        @elseif($d->status == "F")
+                            <td>Failed</td>
+                        @elseif($d->status == "R")
+                            <td>Registered</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>

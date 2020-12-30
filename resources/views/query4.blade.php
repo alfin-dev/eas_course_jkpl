@@ -14,6 +14,8 @@
                     <tr>
                         <th>No.</th>
                         <th>Title</th>
+                        <th>Classroom Tutorial</th>
+                        <th>Section</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,6 +23,8 @@
                     <tr>
                         <td>{{$key +1 }}</td>
                         <td>{{$d->title}}</td>
+                        <td>{{$d->classroom}}</td>
+                        <td>{{$d->section}}</td>
                     </tr>
                 @endforeach
                 </tbody>

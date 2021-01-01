@@ -18,6 +18,7 @@ Route::get('/query-3', 'CourseController@query3')->name('query-3');
 
 Route::get('/query-4', 'CourseController@query4')->name('query-4');
 
+Route::post('coba1', 'CourseController@query1');
 // Route::get('/query-5', function (){
 //     return view('query5');
 // })->name('query-5');

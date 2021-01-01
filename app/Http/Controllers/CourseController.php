@@ -26,14 +26,58 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function query1(){
+    public function query1(Request $request){
        //
+        $query = strtolower($request->querycoba);
+        $pecah = explode(" ", $query);
+        $pecah[1] = "*"; // tulisan All diganti *
+        $kalimat = implode(" ",$pecah);
+            // $query1 = $kalimat;
+            // $student = DB::select(DB::raw($query1));
+            // dd($student);
+
+        // dd($pecah);
+        if($pecah[3]=='student' && count($pecah) <= 4 ){
+            $query1 = $kalimat.' join person on person.id = student.id';
+            $student = DB::select(DB::raw($query1));
+            dd($student);
+       }elseif($pecah[3]=='student'){
+            // $id = strval($pecah[6]);
+            // dd($id);
+            // select * from student join person on person.id = student.id and student.id = '0000041'
+            // $query1 = $kalimat.' join person on person.id = student.id';
+            // $student = DB::select(DB::raw($query1));
+
+            // $query1 = $pecah[0].' '.$pecah[1].' '.$pecah[2].' '.$pecah[3].' '.'join person on person.id = student.id and student.id = '.$id.'::int8';$
+
             $student = DB::table('student')
             ->join('person','person.id','=','student.id')
             ->select('person.*','student.*')
+            ->where('person.id','=',$pecah[6])
             ->get();
-
             return view('query1',compact('student'));
+
+            // dd($student);
+        //     $student = DB::select(DB::raw($query1));
+        // dd($student);
+       }
+       elseif ($pecah[3]=='person') {
+            $query2 = $kalimat;
+            $student = DB::select(DB::raw($query2));
+        dd($student);
+       }elseif ($pecah[3]=='course') {
+            $course = DB::select(DB::raw($kalimat));
+        dd($course);
+
+       }
+    //    dd($student);
+            // $student = DB::table('student')
+            // ->join('person','person.id','=','student.id')
+            // ->select('person.*','student.*')
+            // ->where('person.id','=',$request->student)
+            // ->get();
+// dd($student);
+            // return view('query1',compact('student'));
     }
 
     public function query1b($id){
@@ -55,14 +99,14 @@ class CourseController extends Controller
         ->join('y2course','y2course.desig', '=','l2.desig')
         ->join('course','course.desig', '=','l2.desig')
         ->select('person.*','course.title','student.year','l2.status')->where('person.id','=', $id)->get();
-        
+
         $l3 = DB::table('person')
         ->join('student','student.id','=','person.id')
         ->join('l3','l3.id', '=','student.id')
         ->join('y3course','y3course.desig', '=','l3.desig')
         ->join('course','course.desig', '=','l3.desig')
         ->select('person.*','course.title','student.year','l3.status')->where('person.id','=', $id)->get();
-        
+
         $l4 = DB::table('person')
         ->join('student','student.id','=','person.id')
         ->join('l4','l4.id', '=','student.id')
@@ -70,7 +114,7 @@ class CourseController extends Controller
         ->join('course','course.desig', '=','l4.desig')
         ->select('person.*','course.title','student.year','l4.status')->where('person.id','=', $id)->get();
 
-        return view('query1b',compact('l1','l2','l3','l4'));   
+        return view('query1b',compact('l1','l2','l3','l4'));
     }
 
     public function query2(){
@@ -100,9 +144,9 @@ class CourseController extends Controller
         ->get();
         return view('query4',compact('des'));
     }
-    
+
     public function query5(){
-    
+
         $q5 = DB::table('course')
         ->select('lab.desig','course.title')
         ->join('lab','course.desig','=','lab.desig')
@@ -113,9 +157,9 @@ class CourseController extends Controller
     // dd($q5);
     return view('query5',compact('q5'));
     }
-    
+
     public function query6(){
-                
+
         $ins = DB::table('person')
         ->select('person.name')
         ->join('instructor','person.id','=','instructor.id')

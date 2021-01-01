@@ -55,7 +55,7 @@
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"> {{ $cour }}</div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -100,4 +100,14 @@
                                     <p>Aplikasi ini tentang pendaftaran kursus yang dilakukan selama 4 tahun.</p>
                                 </div>
                             </div>
+                            <form action="coba1" method="post">
+                            @csrf
+                            <textarea name="querycoba" id="1" cols="30" rows="10"></textarea>
+                            <button type="submit">GO</button>
+                            </form>
+                            <p>To search use this syntax "select all from what r u looking for :  <br>Example : select all from student<br>
+                            --Student<br>
+                            --y1course<br>
+                            --person<br>
+                            --course</p>
 @endsection

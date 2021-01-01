@@ -3,6 +3,7 @@
 @section('title','Query 1')
 @section('content')
 
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">All Students</h6>
@@ -26,7 +27,7 @@
                         <td>{{$d->id}}</td>
                         <td>{{$d->name}}</td>
                         <td>{{$d->year}}</td>
-                        <td><a href="/cari/{{$d->id}}" class="btn btn-primary text-center" > SEARCH </a></td>      
+                        <td><a href="/cari/{{$d->id}}" class="btn btn-primary text-center" > SEARCH </a></td>
                     </tr>
                 @endforeach
                 </tbody>

@@ -3,6 +3,9 @@
 @section('title','Dashboard')
 @section('content')
 
+@if(session('error'))
+            <div class="alert alert-danger">{{session('error')}}</div>
+@endif
                     <!-- Content Row -->
                     <div class="row">
 
@@ -100,6 +103,9 @@
                                     <p>Aplikasi ini tentang pendaftaran kursus yang dilakukan selama 4 tahun.</p>
                                 </div>
                             </div>
+                            @if(session('error'))
+                                <div class="alert alert-danger">{{session('error')}}</div>
+                            @endif
                             <form action="coba1" method="post">
                             @csrf
                             <textarea name="querycoba" id="1" cols="30" rows="10"></textarea>

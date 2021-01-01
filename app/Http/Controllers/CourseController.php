@@ -61,14 +61,189 @@ class CourseController extends Controller
         //     $student = DB::select(DB::raw($query1));
         // dd($student);
        }
-       elseif ($pecah[3]=='person') {
-            $query2 = $kalimat;
-            $student = DB::select(DB::raw($query2));
-        dd($student);
-       }elseif ($pecah[3]=='course') {
-            $course = DB::select(DB::raw($kalimat));
-        dd($course);
+       elseif ($pecah[3]=='person' && count($pecah) <=4) {
 
+        $ins = DB::table('person')
+        ->select('person.name')
+        ->join('instructor','person.id','=','instructor.id')
+        ->join('hasi','instructor.id','=','hasi.id')
+        ->join('course','hasi.desig','=','course.desig')
+        ->join('tutorial','tutorial.desig','=','course.desig')
+        ->join('lab','hasi.desig','=','lab.desig')
+        ->groupBy('person.name')
+        ->Having(DB::raw('count(lab.section)'), '>', 1)
+        ->distinct('person.name')
+        ->get();
+        dd($ins);
+        //     $query2 = $kalimat;
+        //     $student = DB::select(DB::raw($query2));
+        // dd($student);
+       
+        }
+       elseif ($pecah[3]=='person') {
+
+        $ins = DB::table('person')
+        ->select('person.name')
+        ->join('instructor','person.id','=','instructor.id')
+        ->join('hasi','instructor.id','=','hasi.id')
+        ->join('course','hasi.desig','=','course.desig')
+        ->join('tutorial','tutorial.desig','=','course.desig')
+        ->join('lab','hasi.desig','=','lab.desig')
+        ->groupBy('person.name')
+        ->Having(DB::raw('count(lab.section)'), '<=', 1)
+        ->distinct('person.name')
+        ->get();
+        dd($ins);
+        //     $query2 = $kalimat;
+        //     $student = DB::select(DB::raw($query2));
+        // dd($student);
+       
+        }
+        elseif ($pecah[3]=='course' && count($pecah) <= 4 ){
+
+            $des = DB::table('course')
+            ->join('tutorial','course.desig','=','tutorial.desig')
+            ->select('course.*','tutorial.*')
+            ->distinct('tutorial.*','course.*')
+            ->get();
+            dd($des);
+
+        }elseif ($pecah[3]=='course') {
+        
+            $q5 = DB::table('course')
+            ->select('lab.desig','course.title')
+            ->join('lab','course.desig','=','lab.desig')
+            ->groupBy('lab.desig','course.title')
+            ->Having(DB::raw('count(lab.section)'), '>', 1)
+            ->distinct('lab.desig')
+            ->get();
+            dd($q5);
+        //     $course = DB::select(DB::raw($kalimat));
+        // dd($course);
+       
+        }elseif ($pecah[3]=='instructor'){
+           $ins = DB::select(DB::raw($kalimat));
+           dd($ins);
+       }else if($pecah[3]=='lab'){
+           $lab = DB::select(DB::raw($kalimat));
+           dd($lab);
+       }else if($pecah[3]=='tutorial'){
+           $tuto = DB::select(DB::raw($kalimat));
+           dd($tuto);
+       }else if($pecah[3]=='hasla'){
+           $hasla = DB::select(DB::raw($kalimat));
+           dd($hasla);
+       }
+       else if($pecah[3]=='hasta'){
+           $hasta = DB::select(DB::raw($kalimat));
+           dd($hasta);
+       }
+       else if($pecah[3]=='la'){
+           $la = DB::select(DB::raw($kalimat));
+           dd($la);
+       }
+       else if($pecah[3]=='ta'){
+           $ta = DB::select(DB::raw($kalimat));
+           dd($ta);
+       }
+       else if($pecah[3]=='staff'){
+           $staff = DB::select(DB::raw($kalimat));
+           dd($staff);
+       }
+       else if($pecah[3]=='l2'){
+           $l2 = DB::select(DB::raw($kalimat));
+           dd($l2);
+       }
+       else if($pecah[3]=='l1'){
+           $l1 = DB::select(DB::raw($kalimat));
+           dd($l1);
+       }
+       else if($pecah[3]=='l3'){
+           $l3 = DB::select(DB::raw($kalimat));
+           dd($l3);
+       }
+       else if($pecah[3]=='l4'){
+           $l4 = DB::select(DB::raw($kalimat));
+           dd($l4);
+       }
+       else if($pecah[3]=='y1course'){
+           $y1course = DB::select(DB::raw($kalimat));
+           dd($y1course);
+       }
+       else if($pecah[3]=='y2course'){
+           $y2course = DB::select(DB::raw($kalimat));
+           dd($y2course);
+       }
+       else if($pecah[3]=='y3course'){
+           $y3course = DB::select(DB::raw($kalimat));
+           dd($y3course);
+       }
+       else if($pecah[3]=='y4course'){
+           $y4course = DB::select(DB::raw($kalimat));
+           dd($y4course);
+       }
+       else if($pecah[3]=='hasi'){
+           $hasi = DB::select(DB::raw($kalimat));
+           dd($hasi);
+       }
+       else if($pecah[3]=='prereq11'){
+           $prereq11 = DB::select(DB::raw($kalimat));
+           dd($prereq11);
+       }
+       else if($pecah[3]=='prereq12'){
+           $prereq12 = DB::select(DB::raw($kalimat));
+           dd($prereq12);
+       }
+       else if($pecah[3]=='prereq13'){
+           $prereq13 = DB::select(DB::raw($kalimat));
+           dd($prereq13);
+       }
+       else if($pecah[3]=='prereq14'){
+           $prereq14 = DB::select(DB::raw($kalimat));
+           dd($prereq14);
+       }
+       else if($pecah[3]=='prereq22'){
+           $prereq22 = DB::select(DB::raw($kalimat));
+           dd($prereq22);
+       }
+       else if($pecah[3]=='prereq23'){
+           $prereq23 = DB::select(DB::raw($kalimat));
+           dd($prereq23);
+       }
+       else if($pecah[3]=='prereq24'){
+           $prereq24 = DB::select(DB::raw($kalimat));
+           dd($prereq24);
+       }
+       else if($pecah[3]=='prereq33'){
+           $prereq33 = DB::select(DB::raw($kalimat));
+           dd($prereq33);
+       }
+       else if($pecah[3]=='prereq34'){
+           $prereq34 = DB::select(DB::raw($kalimat));
+           dd($prereq34);
+       }
+       else if($pecah[3]=='prereq44'){
+           $prereq44 = DB::select(DB::raw($kalimat));
+           dd($prereq44);
+       }
+       else if($pecah[3]=='antireq1'){
+           $antireq1 = DB::select(DB::raw($kalimat));
+           dd($antireq1);
+       }
+       else if($pecah[3]=='antireq2'){
+           $antireq2 = DB::select(DB::raw($kalimat));
+           dd($antireq2);
+       }
+       else if($pecah[3]=='antireq3'){
+           $antireq3 = DB::select(DB::raw($kalimat));
+           dd($antireq3);
+       }
+       else if($pecah[3]=='antireq4'){
+           $antireq4 = DB::select(DB::raw($kalimat));
+           dd($antireq4);
+       }
+       else{
+            return redirect('/')->with('error', 'Salah Dalam Penulisan Query !!!');
        }
     //    dd($student);
             // $student = DB::table('student')

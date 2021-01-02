@@ -14,11 +14,13 @@ class CourseController extends Controller
      */
     public function index()
     {
+        $ins = null;
+        $query = null;
         $stud = DB::table('student')->count();
         $staf = DB::table('staff')->count();
         $cour = DB::table('course')->count();
         $inst = DB::table('instructor')->count();
-        return view('dashboard',compact('stud','staf','cour','inst'));
+        return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
     }
 
     /**
@@ -38,9 +40,15 @@ class CourseController extends Controller
 
         // dd($pecah);
         if($pecah[3]=='student' && count($pecah) <= 4 ){
+            $query = strtolower($request->querycoba);
             $query1 = $kalimat.' join person on person.id = student.id';
-            $student = DB::select(DB::raw($query1));
-            dd($student);
+            $ins = DB::select(DB::raw($query1));
+            // dd($student);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }elseif($pecah[3]=='student'){
             // $id = strval($pecah[6]);
             // dd($id);
@@ -49,20 +57,24 @@ class CourseController extends Controller
             // $student = DB::select(DB::raw($query1));
 
             // $query1 = $pecah[0].' '.$pecah[1].' '.$pecah[2].' '.$pecah[3].' '.'join person on person.id = student.id and student.id = '.$id.'::int8';$
-
-            $student = DB::table('student')
+            $query = strtolower($request->querycoba);
+            $ins = DB::table('student')
             ->join('person','person.id','=','student.id')
             ->select('person.*','student.*')
             ->where('person.id','=',$pecah[6])
             ->get();
-            return view('query1',compact('student'));
-
+            // return view('query1',compact('student'));
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
             // dd($student);
         //     $student = DB::select(DB::raw($query1));
         // dd($student);
        }
        elseif ($pecah[3]=='person' && count($pecah) <=4) {
-
+        $query = strtolower($request->querycoba);
         $ins = DB::table('person')
         ->select('person.name')
         ->join('instructor','person.id','=','instructor.id')
@@ -74,14 +86,19 @@ class CourseController extends Controller
         ->Having(DB::raw('count(lab.section)'), '>', 1)
         ->distinct('person.name')
         ->get();
-        dd($ins);
+        // dd($ins);
+        $stud = DB::table('student')->count();
+        $staf = DB::table('staff')->count();
+        $cour = DB::table('course')->count();
+        $inst = DB::table('instructor')->count();
+        return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
         //     $query2 = $kalimat;
         //     $student = DB::select(DB::raw($query2));
         // dd($student);
        
         }
        elseif ($pecah[3]=='person') {
-
+        $query = strtolower($request->querycoba);
         $ins = DB::table('person')
         ->select('person.name')
         ->join('instructor','person.id','=','instructor.id')
@@ -93,154 +110,355 @@ class CourseController extends Controller
         ->Having(DB::raw('count(lab.section)'), '<=', 1)
         ->distinct('person.name')
         ->get();
-        dd($ins);
+        $stud = DB::table('student')->count();
+        $staf = DB::table('staff')->count();
+        $cour = DB::table('course')->count();
+        $inst = DB::table('instructor')->count();
+        return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
+        // dd($ins);
         //     $query2 = $kalimat;
         //     $student = DB::select(DB::raw($query2));
         // dd($student);
        
         }
         elseif ($pecah[3]=='course' && count($pecah) <= 4 ){
-
-            $des = DB::table('course')
+            $query = strtolower($request->querycoba);
+            $ins = DB::table('course')
             ->join('tutorial','course.desig','=','tutorial.desig')
             ->select('course.*','tutorial.*')
             ->distinct('tutorial.*','course.*')
             ->get();
-            dd($des);
+            // dd($des);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
 
         }elseif ($pecah[3]=='course') {
-        
-            $q5 = DB::table('course')
+            $query = strtolower($request->querycoba);
+            $ins = DB::table('course')
             ->select('lab.desig','course.title')
             ->join('lab','course.desig','=','lab.desig')
             ->groupBy('lab.desig','course.title')
             ->Having(DB::raw('count(lab.section)'), '>', 1)
             ->distinct('lab.desig')
             ->get();
-            dd($q5);
+            // dd($q5);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
         //     $course = DB::select(DB::raw($kalimat));
         // dd($course);
        
         }elseif ($pecah[3]=='instructor'){
-           $ins = DB::select(DB::raw($kalimat));
-           dd($ins);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($ins);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }else if($pecah[3]=='lab'){
-           $lab = DB::select(DB::raw($kalimat));
-           dd($lab);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($lab);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }else if($pecah[3]=='tutorial'){
-           $tuto = DB::select(DB::raw($kalimat));
-           dd($tuto);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($tuto);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }else if($pecah[3]=='hasla'){
-           $hasla = DB::select(DB::raw($kalimat));
-           dd($hasla);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($hasla);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='hasta'){
-           $hasta = DB::select(DB::raw($kalimat));
-           dd($hasta);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($hasta);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='la'){
-           $la = DB::select(DB::raw($kalimat));
-           dd($la);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($la);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='ta'){
-           $ta = DB::select(DB::raw($kalimat));
-           dd($ta);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($ta);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='staff'){
-           $staff = DB::select(DB::raw($kalimat));
-           dd($staff);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($staff);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='l2'){
-           $l2 = DB::select(DB::raw($kalimat));
-           dd($l2);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($l2);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='l1'){
-           $l1 = DB::select(DB::raw($kalimat));
-           dd($l1);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($l1);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='l3'){
-           $l3 = DB::select(DB::raw($kalimat));
-           dd($l3);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($l3);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='l4'){
-           $l4 = DB::select(DB::raw($kalimat));
-           dd($l4);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($l4);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='y1course'){
-           $y1course = DB::select(DB::raw($kalimat));
-           dd($y1course);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($y1course);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='y2course'){
-           $y2course = DB::select(DB::raw($kalimat));
-           dd($y2course);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+        //    dd($y2course);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='y3course'){
-           $y3course = DB::select(DB::raw($kalimat));
-           dd($y3course);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($y3course);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='y4course'){
-           $y4course = DB::select(DB::raw($kalimat));
-           dd($y4course);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($y4course);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='hasi'){
-           $hasi = DB::select(DB::raw($kalimat));
-           dd($hasi);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($hasi);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq11'){
-           $prereq11 = DB::select(DB::raw($kalimat));
-           dd($prereq11);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq11);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq12'){
-           $prereq12 = DB::select(DB::raw($kalimat));
-           dd($prereq12);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq12);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq13'){
-           $prereq13 = DB::select(DB::raw($kalimat));
-           dd($prereq13);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq13);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq14'){
-           $prereq14 = DB::select(DB::raw($kalimat));
-           dd($prereq14);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq14);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq22'){
-           $prereq22 = DB::select(DB::raw($kalimat));
-           dd($prereq22);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq22);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq23'){
-           $prereq23 = DB::select(DB::raw($kalimat));
-           dd($prereq23);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq23);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq24'){
-           $prereq24 = DB::select(DB::raw($kalimat));
-           dd($prereq24);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq24);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq33'){
-           $prereq33 = DB::select(DB::raw($kalimat));
-           dd($prereq33);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            //    dd($prereq33);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq34'){
-           $prereq34 = DB::select(DB::raw($kalimat));
-           dd($prereq34);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq34);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='prereq44'){
-           $prereq44 = DB::select(DB::raw($kalimat));
-           dd($prereq44);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($prereq44);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='antireq1'){
-           $antireq1 = DB::select(DB::raw($kalimat));
-           dd($antireq1);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($antireq1);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='antireq2'){
-           $antireq2 = DB::select(DB::raw($kalimat));
-           dd($antireq2);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($antireq2);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='antireq3'){
-           $antireq3 = DB::select(DB::raw($kalimat));
-           dd($antireq3);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($antireq3);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else if($pecah[3]=='antireq4'){
-           $antireq4 = DB::select(DB::raw($kalimat));
-           dd($antireq4);
+            $query = strtolower($request->querycoba);
+            $ins = DB::select(DB::raw($kalimat));
+            // dd($antireq4);
+            $stud = DB::table('student')->count();
+            $staf = DB::table('staff')->count();
+            $cour = DB::table('course')->count();
+            $inst = DB::table('instructor')->count();
+            return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
        }
        else{
             return redirect('/')->with('error', 'Salah Dalam Penulisan Query !!!');

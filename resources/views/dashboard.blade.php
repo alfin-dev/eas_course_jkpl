@@ -112,12 +112,17 @@
                             {{-- <textarea name="querycoba" id="1" cols="30" rows="10"></textarea> --}}
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                                <textarea name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $query }}</textarea>
+                                {{-- <textarea name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $query }}</textarea> --}}
+                                <input type="text" name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{$query}}">
+
+                                {{-- <input type="text" name querycoba value="{{$query}}"> --}}
                             </div>
                             @else
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                                <textarea name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Tulis Query Disini"></textarea>
+                                <input type="text" name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Tulis Query Disini">
+                                {{-- <input type="text" name querycoba> --}}
+
                             </div>
                             @endif
                             <button class="btn btn-primary" type="submit">GO</button>
@@ -128,14 +133,14 @@
                             --y1course<br>
                             --person<br>
                             --course</p>
-                                
-                            
+
+
                             @if($ins)
                             <table class="table">
                                 <thead class="thead-light">
                                   <tr>
-                                    @foreach ($ins as $key => $value)  
-                                        @foreach ($value as $key => $value1)  
+                                    @foreach ($ins as $key => $value)
+                                        @foreach ($value as $key => $value1)
                                     <th scope="col">{{$key}}</th>
                                         @endforeach
                                         @break
@@ -155,7 +160,7 @@
                             @else
                             <table class="table">
                                 <thead class="thead-light">
-                                  <tr> 
+                                  <tr>
                                     <th scope="col">Judul</th>
                                   </tr>
                                 </thead>

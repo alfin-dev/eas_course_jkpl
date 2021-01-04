@@ -111,7 +111,7 @@
                             @if($query)
                             {{-- <textarea name="querycoba" id="1" cols="30" rows="10"></textarea> --}}
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Example textarea</label>
+                                <label for="exampleFormControlTextarea1">Input your query below</label>
                                 {{-- <textarea name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $query }}</textarea> --}}
                                 <input type="text" name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{$query}}">
 
@@ -119,7 +119,7 @@
                             </div>
                             @else
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Example textarea</label>
+                                <label for="exampleFormControlTextarea1">Input your query below</label>
                                 <input type="text" name="querycoba" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Tulis Query Disini">
                                 {{-- <input type="text" name querycoba> --}}
 

@@ -32,13 +32,17 @@ class CourseController extends Controller
        //
         $query = strtolower($request->querycoba);
         $pecah = explode(" ", $query);
+        if ($pecah[1] == "all") {
+        // $pecah = explode(" ", $query);
         $pecah[1] = "*"; // tulisan All diganti *
         $kalimat = implode(" ",$pecah);
+
             // $query1 = $kalimat;
             // $student = DB::select(DB::raw($query1));
             // dd($student);
 
         // dd($pecah);
+
         if($pecah[3]=='student' && count($pecah) <= 4 ){
             $query = strtolower($request->querycoba);
             $query1 = $kalimat.' join person on person.id = student.id';
@@ -95,7 +99,7 @@ class CourseController extends Controller
         //     $query2 = $kalimat;
         //     $student = DB::select(DB::raw($query2));
         // dd($student);
-       
+
         }
        elseif ($pecah[3]=='person') {
         $query = strtolower($request->querycoba);
@@ -119,7 +123,7 @@ class CourseController extends Controller
         //     $query2 = $kalimat;
         //     $student = DB::select(DB::raw($query2));
         // dd($student);
-       
+
         }
         elseif ($pecah[3]=='course' && count($pecah) <= 4 ){
             $query = strtolower($request->querycoba);
@@ -152,7 +156,7 @@ class CourseController extends Controller
             return view('dashboard',compact('stud','staf','cour','inst','ins','query'));
         //     $course = DB::select(DB::raw($kalimat));
         // dd($course);
-       
+
         }elseif ($pecah[3]=='instructor'){
             $query = strtolower($request->querycoba);
             $ins = DB::select(DB::raw($kalimat));
@@ -463,6 +467,12 @@ class CourseController extends Controller
        else{
             return redirect('/')->with('error', 'Salah Dalam Penulisan Query !!!');
        }
+    }else {
+            return redirect('/')->with('error', 'Salah Dalam Penulisan Query !!!');
+
+    }
+
+
     //    dd($student);
             // $student = DB::table('student')
             // ->join('person','person.id','=','student.id')
